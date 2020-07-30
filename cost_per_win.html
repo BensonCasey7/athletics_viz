@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Moneyball</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src='https://d3js.org/d3.v5.js'></script>
+  <script src='./data.js'></script>
+  <script src='./generate_charts.js'></script>
+</head>
+
+<body>
+  <div class='nav'>
+    <a href='./index.html'>Overview</a>
+    <a href='./wins_vs_salary.html'>An Unfair System</a>
+    <a href='./cost_per_win.html' class='active'>Cost Per Win</a>
+    <a href='./finding_wins.html'>Finding Wins</a>
+  </div>
+  
+  <div id='cost_per_win'></div>
+
+  <script>
+    let cost_per_win_data = cost_per_win.data.filter(function (item) {
+      return (item.yearID == 2002)
+    })
+    cost_per_win_data = cost_per_win_data.sort((a, b) => (a.cost_per_win > b.cost_per_win) ? 1 : -1)
+    bar({
+      id: 'cost_per_win',
+      data: cost_per_win_data,
+      x_axis_label: 'Team',
+      y_axis_label: 'Cost Per Win',
+      x_key: 'name',
+      y_key: 'cost_per_win'
+    })
+  </script>
+</body>
+
+</html>

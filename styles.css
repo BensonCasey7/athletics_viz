@@ -9,6 +9,10 @@ body {
   margin: auto;
 }
 
+.nav .active {
+  font-size: 24px;
+}
+
 .chart_element {
   fill: #2B50AA;
 }

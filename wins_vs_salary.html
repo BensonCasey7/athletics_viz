@@ -10,6 +10,12 @@
 </head>
 
 <body>
+  <div class='nav'>
+    <a href='./index.html'>Overview</a>
+    <a href='./wins_vs_salary.html' class='active'>An Unfair System</a>
+    <a href='./cost_per_win.html'>Cost Per Win</a>
+    <a href='./finding_wins.html'>Finding Wins</a>
+  </div>
   <div class='page-wrapper'>
     <div class='flex'>
       <div id='wins_vs_payroll'></div>
@@ -90,9 +96,6 @@
       </div>
     </div>
   </div>
-
-  <a href='./finding_wins.html'>Finding Wins</a>
-  <a href='./index.html'>Index</a>
 
   <script>
     let teams_with_salaries_data = teams_with_salaries.data.filter(function (item) {
