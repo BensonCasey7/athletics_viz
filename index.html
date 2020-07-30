@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Moneyball</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src='https://d3js.org/d3.v5.js'></script>
+  <script src='./data.js'></script>
+  <script src='./generate_charts.js'></script>
+</head>
+
+<body>
+  <div id='wins_vs_payroll'></div>
+  <button onclick="generateTeamsWithSalary('Oakland Athletics')">Athletics</button>
+  <button onclick="generateTeamsWithSalary('New York Yankees')">Yankees</button>
+  <button onclick="generateTeamsWithSalary('Seattle Mariners')">Seattle Mariners</button>
+  <button onclick="generateTeamsWithSalary('Kansas City Royals')">Kansas City Royals</button>
+  <button onclick="generateTeamsWithSalary()">Reset</button>
+  <div id='wins_vs_payroll_select'></div>
+  <div id='cost_per_win'></div>
+  <a href='./finding_wins.html'>Finding Wins</a>
+
+  <script>
+    let teams_with_salaries_data = teams_with_salaries.data.filter(function (item) {
+      return (item.yearID > 1995 && item.yearID < 2005)
+    });
+
+    function generateTeamsWithSalary(relevant_team) {
+      let wins_vs_payroll = scatter({
+        id: 'wins_vs_payroll',
+        data: teams_with_salaries_data,
+        x_axis_label: 'Total Payroll (Season, USD)',
+        y_axis_label: 'Wins',
+        x_domain: [0, 200000000],
+        y_domain: [40, 120],
+        x_key: 'salary',
+        y_key: 'W',
+        regression: true,
+        highlight_key: 'name',
+        highlight_value: relevant_team
+      });
+      wins_vs_payroll.svg.append('g')
+        .append('line')
+        .attr('x1', 0)
+        .attr('y1', wins_vs_payroll.y_scale(81))
+        .attr('x2', 50000)
+        .attr('y2', wins_vs_payroll.y_scale(81))
+        .attr('stroke-width', 2)
+        .attr('opacity', .3)
+        .attr('stroke', 'black');
+    }
+    generateTeamsWithSalary();
+
+    var myParent = document.getElementById("wins_vs_payroll_select");;
+
+    //Create array of options to be added
+    var array = Array.from(new Set(teams_with_salaries_data.map(function(d) { return d.name })));
+
+    //Create and append select list
+    var selectList = document.createElement("select");
+    selectList.id = "mySelect";
+    selectList.setAttribute("onchange", 'generateTeamsWithSalary(this.value)');
+    myParent.appendChild(selectList);
+
+    //Create and append the options
+    for (var i = 0; i < array.length; i++) {
+      var option = document.createElement("option");
+      option.value = array[i];
+      option.text = array[i];
+      // option.setAttribute("onchange", "generateTeamsWithSalary('" + array[i] + "')");
+      // debugger
+      selectList.appendChild(option);
+    }
+
+    let cost_per_win_data = cost_per_win.data.filter(function (item) {
+      return (item.yearID == 2002)
+    })
+    cost_per_win_data = cost_per_win_data.sort((a, b) => (a.cost_per_win > b.cost_per_win) ? 1 : -1)
+    bar({
+      id: 'cost_per_win',
+      data: cost_per_win_data,
+      x_axis_label: 'Team',
+      y_axis_label: 'Cost Per Win',
+      x_key: 'name',
+      y_key: 'cost_per_win'
+    })
+  </script>
+</body>
+
+</html>

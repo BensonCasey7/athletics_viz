@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.page-wrapper {
+  width: 1400px;
+  margin: auto;
+}
+
+.chart_element {
+  fill: #2B50AA;
+}
+
+.understated_element {
+  fill: #DDD;
+}
+
+.athletics {
+  fill: #08A045;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.slides {
+  height: 100%;
+  flex-direction: column;
+  align-content: space-between;
+}

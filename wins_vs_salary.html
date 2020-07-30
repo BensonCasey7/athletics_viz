@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Moneyball</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src='https://d3js.org/d3.v5.js'></script>
+  <script src='./data.js'></script>
+  <script src='./generate_charts.js'></script>
+</head>
+
+<body>
+  <div class='page-wrapper'>
+    <div class='flex'>
+      <div id='wins_vs_payroll'></div>
+
+      <div class='slides'>
+        <div>
+          <div id='slide_1'>
+            <h3 class='slide_header'>An Unfair System</h3>
+            <div class='slide_copy'>
+              <p>
+                As you might expect, baseball teams that have more resources tend to win more games. Elite players,
+                unsurprisingly, garner bigger paydays so they usually wind up on teams that have bank accounts large
+                enough
+                to afford them.
+              </p>
+              <p>
+                Here, we have every team's number of wins plotted against their total payroll for that season from 1995
+                to
+                2004. Take a look at your favorite teams and see what they were able to do with their money.
+              </p>
+            </div>
+            <div id='wins_vs_payroll_select'></div>
+          </div>
+          <div id='slide_2' class='hidden'>
+            <h3 class='slide_header'>Money makes the world go 'round</h3>
+            <div class='slide_copy'>
+              The New York Yankees didn't get the nickname 'The Evil Empire' for nothing. They've had a century of
+              extraordinary success. Pair that level of winning with residing in the largest market in the United States
+              and
+              you get an extremely wealthy team. They have a penchant for cultivating the best, most expensive players
+              available that have led them to winning an MLB record 27 World Series Championships.
+            </div>
+          </div>
+          <div id='slide_3' class='hidden'>
+            <h3 class='slide_header'>Got any spare wins?</h3>
+            <div class='slide_copy'>
+              At the other end of the spectrum is the Pittsburgh Pirates. They have the misfortune of being in a city
+              that
+              is comparatively small and all but forgets baseball exists when football is on. The Pirates have and
+              continue
+              to have one of the smallest budgets in baseball and their win totals reflect that.
+            </div>
+          </div>
+          <div id='slide_4' class='hidden'>
+            <h3 class='slide_header'>Luck isn't sustainable</h3>
+            <div class='slide_copy'>
+              The Seattle Mariners have one of the most eye-popping points on this chart. On a modest budget, the
+              Mariners
+              put together an impressive 116 win season in 2001. Much of this winning can be attributed to future Hall
+              of
+              Famer Ichiro Suzuki, who put together an incredible season while earning a salary that was <i>far</i>
+              smaller
+              than his value demanded.
+
+              This season is an outlier and greatly dragged down by very poor Mariner performances with similar
+              payrolls.
+            </div>
+          </div>
+          <div id='slide_5' class='hidden'>
+            <h3 class='slide_header'>Enter sabermetrics...</h3>
+            <div class='slide_copy'>
+              The Oakland Athletics, a team with a relatively small fan base, overshadowed in the Bay Area by the San
+              Francisco Giants put together a string of teams that consistently won more games than their payroll would
+              have
+              suggested. A's general manager Billy Beane made use of sabermetrics, the empirical analysis of baseball
+              statistics, to find value in players that no other teams in the MLB saw.
+
+              Their 2002 season is particularly notable when they put together 103 wins on a mere $41 million payroll.
+              Let's explore how Billy Beane was able to achieve this.
+            </div>
+          </div>
+        </div>
+
+        <div class='slide-navigation'>
+          <button onclick="back()">Back</button>
+          <button onclick="forward()">Forward</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href='./finding_wins.html'>Finding Wins</a>
+  <a href='./index.html'>Index</a>
+
+  <script>
+    let teams_with_salaries_data = teams_with_salaries.data.filter(function (item) {
+      return (item.yearID >= 1995 && item.yearID <= 2004)
+    });
+
+    function generateTeamsWithSalary(relevant_team) {
+      let wins_vs_payroll = scatter({
+        id: 'wins_vs_payroll',
+        data: teams_with_salaries_data,
+        x_axis_label: 'Total Payroll (USD)',
+        y_axis_label: 'Wins',
+        x_domain: [0, 200000000],
+        y_domain: [40, 120],
+        x_key: 'salary',
+        y_key: 'W',
+        regression: true,
+        highlight_key: 'name',
+        highlight_value: relevant_team
+      });
+      wins_vs_payroll.svg.append('g')
+        .append('line')
+        .attr('x1', 0)
+        .attr('y1', wins_vs_payroll.y_scale(81))
+        .attr('x2', 50000)
+        .attr('y2', wins_vs_payroll.y_scale(81))
+        .attr('stroke-width', 2)
+        .attr('opacity', .3)
+        .attr('stroke', 'black');
+    }
+    generateTeamsWithSalary();
+
+    let myParent = document.getElementById("wins_vs_payroll_select");;
+
+    let teams = Array.from(new Set(teams_with_salaries_data.map(function (d) {
+      return d.name
+    })));
+    let select = document.createElement("select");
+    select.setAttribute("onchange", 'generateTeamsWithSalary(this.value)');
+    myParent.appendChild(select);
+
+    let option = document.createElement("option");
+    option.value = false;
+    option.text = 'Select a Team';
+    select.appendChild(option);
+    for (let i = 0; i < teams.length; i++) {
+      let option = document.createElement("option");
+      option.value = teams[i];
+      option.text = teams[i];
+      select.appendChild(option);
+    }
+
+    let current_slide = 1;
+    let slides = [false, 'New York Yankees', 'Pittsburgh Pirates', 'Seattle Mariners', 'Oakland Athletics']
+
+    function forward() {
+      remove_slide();
+      if (current_slide < 5) {
+        current_slide++;
+      }
+      change_slide();
+    }
+
+    function back() {
+      remove_slide();
+      if (current_slide > 1) {
+        current_slide--;
+      }
+      change_slide();
+    }
+
+    function remove_slide() {
+      document.getElementById('slide_' + current_slide).classList.add('hidden');
+    }
+
+    function change_slide() {
+      document.getElementById('slide_' + current_slide).classList.remove('hidden');
+      generateTeamsWithSalary(slides[current_slide - 1])
+    }
+  </script>
+</body>
+
+</html>

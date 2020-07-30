@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moneyball</title>
+    <script src='https://d3js.org/d3.v5.js'></script>
+    <script src='https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js'></script>
+    <script src='./data.js'></script>
+    <script src='./generate_charts.js'></script>
+</head>
+<body>
+<div id='wins_vs_walks'></div>
+<div id='walks_vs_salary'></div>
+<a href="./index.html">A Rigged System</a>
+
+<script>
+    year_range = [1995, 2005];
+    teams_with_salary_data = teams_with_salaries.data.filter(function (item) {
+        return (item.yearID > year_range[0] && item.yearID < year_range[1])
+    });
+    let wins_vs_walks = scatter({
+        id: 'wins_vs_walks',
+        data: teams_with_salary_data,
+        x_axis_label: 'Walks (Season)',
+        y_axis_label: 'Wins',
+        x_domain: [300, 900],
+        y_domain: [40, 120],
+        x_key: 'BB',
+        y_key: 'W',
+        regression: true
+    });
+
+    walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
+        return (item.yearID > year_range[0] && item.yearID < year_range[1] && item.AB > 100 && item.salary)
+    });
+    let walks_vs_salary = scatter({
+        id: 'walks_vs_salary',
+        data: walks_vs_salary_data,
+        x_axis_label: 'Salary',
+        y_axis_label: 'Walk Rate',
+        x_domain: [0, 15000000],
+        y_domain: [0, 0.4],
+        x_key: 'salary',
+        y_key: 'walk_rate',
+        regression: true
+    });
+</script>
+</body>
+</html>
