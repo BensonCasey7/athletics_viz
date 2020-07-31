@@ -90,8 +90,9 @@
         </div>
 
         <div class='slide-navigation'>
-          <button onclick="back()">Back</button>
-          <button onclick="forward()">Forward</button>
+          <a href='#' id='last_button' onclick="back()"
+            class='slide-navigation__button slide-navigation__button--inactive'>&lt;</a>
+          <a href='#' id='next_button' onclick="forward()" class='slide-navigation__button'>&gt;</a>
         </div>
       </div>
     </div>
@@ -105,7 +106,7 @@
     let base_annotations = [{
       title: '50% Win Rate',
       text: 'An "average" season',
-      x_value: 130000000,
+      x_value: 160000000,
       y_value: 81,
       x_adj: 50,
       y_adj: 50
@@ -139,14 +140,14 @@
     }
     generateTeamsWithSalary();
 
-    let myParent = document.getElementById("wins_vs_payroll_select");;
+    let selectParent = document.getElementById("wins_vs_payroll_select");;
 
     let teams = Array.from(new Set(teams_with_salaries_data.map(function (d) {
       return d.name
     })));
     let select = document.createElement("select");
     select.setAttribute("onchange", 'generateTeamsWithSalary(this.value)');
-    myParent.appendChild(select);
+    selectParent.appendChild(select);
 
     let option = document.createElement("option");
     option.value = false;
@@ -232,8 +233,30 @@
 
     function change_slide() {
       document.getElementById('slide_' + current_slide).classList.remove('hidden');
-      scatter_options.annotations = base_annotations.concat(slide_annotations[current_slide])
-      generateTeamsWithSalary(slides[current_slide])
+      scatter_options.annotations = base_annotations.concat(slide_annotations[current_slide]);
+      generateTeamsWithSalary(slides[current_slide]);
+      updateButtons();
+    }
+
+    function updateButtons() {
+      let next_el = document.getElementById('next_button')
+      let last_el = document.getElementById('last_button')
+      if (current_slide == 5) {
+        next_el.innerHTML = 'Next'
+        // next_el.setAttribute("href", "./cost_per_win.html")
+        setTimeout(function () {
+          next_el.setAttribute("href", "./cost_per_win.html")
+        }, 1)
+      } else {
+        next_el.innerHTML = '>'
+        next_el.href = '#'
+      }
+
+      if (current_slide == 1) {
+        last_el.classList.add('slide-navigation__button--inactive')
+      } else {
+        last_el.classList.remove('slide-navigation__button--inactive')
+      }
     }
   </script>
 </body>

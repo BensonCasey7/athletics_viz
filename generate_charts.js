@@ -73,7 +73,7 @@ function scatter(options) {
     })
     .attr('r', 4)
     .attr("class", function (d) {
-      if (highlight_value) {
+      if (highlight_value && highlight_value != 'false') {
         if (d[highlight_key] == highlight_value) {
           return 'athletics'
         } else {
@@ -173,12 +173,12 @@ function bar(options) {
   const x_key = options.x_key;
   const y_key = options.y_key;
   const svg_width = options.width || 1000;
-  const svg_height = options.height || 400;
+  const svg_height = options.height || 600;
 
   var margin = {
       top: 10,
       right: 0,
-      bottom: 100,
+      bottom: 110,
       left: 60
     },
     width = svg_width - margin.left - margin.right,
@@ -202,7 +202,11 @@ function bar(options) {
   }));
   y.domain([0, d3.max(data, function (d) {
     return Number(d[y_key]);
-  })]);
+  }) + 200000]);
+
+  var div = d3.select("body").append("div")
+    .attr("class", "bar-tooltip")
+    .style("opacity", 0);
 
   g.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -227,7 +231,8 @@ function bar(options) {
 
   g.selectAll(".bar")
     .data(data)
-    .enter().append("rect")
+    .enter()
+    .append("rect")
     .attr("class", "bar")
     .attr("x", function (d, i) {
       return x.bandwidth() * i + 5;
@@ -241,10 +246,23 @@ function bar(options) {
     })
     .attr("class", function (d) {
       if (d.teamID == 'OAK') {
-        return 'athletics'
+        return 'athletics athletics--interactive'
       } else {
-        return 'chart_element'
+        return 'chart_element chart_element--interactive'
       }
+    })
+    .on("mouseover", function (d, i) {
+      div.transition()
+        .duration(100)
+        .style("opacity", .9);
+      div.html('Wins: ' + d.W + '<br>Salary: $' + d.salary )
+        .style("left", (x.bandwidth() * i + 5) + "px")
+        .style("top", (y(d[y_key]) - 20) + "px");
+    })
+    .on("mouseout", function (d) {
+      div.transition()
+        .duration(100)
+        .style("opacity", 0);
     });
 }
 

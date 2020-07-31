@@ -17,12 +17,20 @@ body {
   fill: #2B50AA;
 }
 
+.chart_element--interactive:hover {
+  fill: #1c3472;
+}
+
 .understated_element {
   fill: #DDD;
 }
 
 .athletics {
   fill: #08A045;
+}
+
+.athletics--interactive:hover {
+  fill: #035e27;
 }
 
 .annotation_title {
@@ -45,7 +53,48 @@ body {
 }
 
 .slides {
-  height: 100%;
+  display: flex;
   flex-direction: column;
-  align-content: space-between;
+  justify-content: space-between;
+  margin-left: 12px;
+  margin-bottom: 50px;
+}
+
+.slide-navigation {
+  display: flex;
+}
+
+.slide-navigation__button {
+  width: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  background-color: #DDD;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  margin: 6px;
+}
+
+.slide-navigation__button:hover {
+  background-color: #999;
+}
+
+.slide-navigation__button--inactive {
+  cursor: default;
+  color: #CCC;
+  background-color: #EEE;
+}
+
+.slide-navigation__button--inactive:hover {
+  background-color: #EEE;
+}
+
+.bar-tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 6px;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 3px;
+  pointer-events: none;
 }

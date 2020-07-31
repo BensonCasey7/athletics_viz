@@ -16,8 +16,42 @@
     <a href='./cost_per_win.html' class='active'>Cost Per Win</a>
     <a href='./finding_wins.html'>Finding Wins</a>
   </div>
-  
-  <div id='cost_per_win'></div>
+
+  <!-- <div id='cost_per_win'></div> -->
+
+  <div class='page-wrapper'>
+    <div class='flex'>
+      <div id='cost_per_win'></div>
+
+      <div class='slides'>
+        <div>
+          <div id='slide_1'>
+            <h3 class='slide_header'>Gotta Write This</h3>
+            <div class='slide_copy'>
+              <p>
+                As you might expect, baseball teams that have more resources tend to win more games. Elite players,
+                unsurprisingly, garner bigger paydays so they usually wind up on teams that have bank accounts large
+                enough
+                to afford them.
+              </p>
+              <p>
+                Here, we have every team's number of wins plotted against their total payroll for that season from 1995
+                to
+                2004. Take a look at your favorite teams and see what they were able to do with their money.
+              </p>
+            </div>
+            <div id='wins_vs_payroll_select'></div>
+          </div>
+        </div>
+
+        <div class='slide-navigation'>
+          <a href='./wins_vs_salary.html' class='slide-navigation__button'>Last</a>
+          <a href='./finding_wins.html' class='slide-navigation__button'>Next</a>
+          <a href='./cost_per_win.html' id='next_page_button' onclick="forward()" class='slide-navigation__button hidden'>&gt;</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     let cost_per_win_data = cost_per_win.data.filter(function (item) {
