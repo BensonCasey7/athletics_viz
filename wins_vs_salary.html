@@ -102,20 +102,31 @@
       return (item.yearID >= 1995 && item.yearID <= 2004)
     });
 
+    let base_annotations = [{
+      title: '50% Win Rate',
+      text: 'An "average" season',
+      x_value: 130000000,
+      y_value: 81,
+      x_adj: 50,
+      y_adj: 50
+    }]
+    let scatter_options = {
+      id: 'wins_vs_payroll',
+      data: teams_with_salaries_data,
+      x_axis_label: 'Total Payroll (USD)',
+      y_axis_label: 'Wins',
+      x_domain: [0, 200000000],
+      y_domain: [40, 120],
+      x_key: 'salary',
+      y_key: 'W',
+      regression: true,
+      highlight_key: 'name',
+      annotations: base_annotations
+    };
+
     function generateTeamsWithSalary(relevant_team) {
-      let wins_vs_payroll = scatter({
-        id: 'wins_vs_payroll',
-        data: teams_with_salaries_data,
-        x_axis_label: 'Total Payroll (USD)',
-        y_axis_label: 'Wins',
-        x_domain: [0, 200000000],
-        y_domain: [40, 120],
-        x_key: 'salary',
-        y_key: 'W',
-        regression: true,
-        highlight_key: 'name',
-        highlight_value: relevant_team
-      });
+      scatter_options.highlight_value = relevant_team;
+      let wins_vs_payroll = scatter(scatter_options);
       wins_vs_payroll.svg.append('g')
         .append('line')
         .attr('x1', 0)
@@ -149,7 +160,55 @@
     }
 
     let current_slide = 1;
-    let slides = [false, 'New York Yankees', 'Pittsburgh Pirates', 'Seattle Mariners', 'Oakland Athletics']
+    let slides = {
+      1: false,
+      2: 'New York Yankees',
+      3: 'Pittsburgh Pirates',
+      4: 'Seattle Mariners',
+      5: 'Oakland Athletics'
+    }
+    let slide_annotations = {
+      1: [],
+      2: [{
+        title: '2004 Yankees',
+        text: '$184 Million, 101 Wins',
+        x_value: 184193950,
+        y_value: 101,
+        x_adj: -50,
+        y_adj: 50
+      }],
+      3: [{
+        title: '1995 Pirates',
+        text: '$18 Million, 58 Wins',
+        x_value: 18355345,
+        y_value: 58,
+        x_adj: 50,
+        y_adj: 50
+      }],
+      4: [{
+        title: '2001 Mariners',
+        text: '$75 Million, 116 Wins',
+        x_value: 74720834,
+        y_value: 116,
+        x_adj: 50,
+        y_adj: 20
+      }, {
+        title: '2004 Mariners',
+        text: '$82 Million, 63 Wins',
+        x_value: 81515834,
+        y_value: 63,
+        x_adj: 50,
+        y_adj: 50
+      }],
+      5: [{
+        title: '2002 Athletics',
+        text: '$40 Million, 103 Wins',
+        x_value: 40004167,
+        y_value: 103,
+        x_adj: -50,
+        y_adj: -50
+      }],
+    }
 
     function forward() {
       remove_slide();
@@ -173,7 +232,8 @@
 
     function change_slide() {
       document.getElementById('slide_' + current_slide).classList.remove('hidden');
-      generateTeamsWithSalary(slides[current_slide - 1])
+      scatter_options.annotations = base_annotations.concat(slide_annotations[current_slide])
+      generateTeamsWithSalary(slides[current_slide])
     }
   </script>
 </body>

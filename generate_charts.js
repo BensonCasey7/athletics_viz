@@ -1,19 +1,3 @@
-// class Scatter {
-//   constructor(options) {
-//     this.id = '#' + options.id;
-//     this.data = options.data;
-//     this.x_axis_label = options.x_axis_label;
-//     this.y_axis_label = options.y_axis_label;
-//     this.x_domain = options.x_domain;
-//     this.y_domain = options.y_domain;
-//     this.x_key = options.x_key;
-//     this.y_key = options.y_key;
-//     this.svg_width = options.width || 1200;
-//     this.svg_height = options.height || 400;
-//     this.regression = options.regression || false;
-//   }
-// }
-
 function scatter(options) {
   const id = '#' + options.id;
   const data = options.data;
@@ -26,9 +10,9 @@ function scatter(options) {
   const svg_width = options.width || 1000;
   const svg_height = options.height || 600;
   const regression = options.regression || false;
-  // const dynamic = options.dynamic || false;
   const highlight_key = options.highlight_key;
   const highlight_value = options.highlight_value || false;
+  const annotations = options.annotations || false;
 
   const margin = {
       top: 10,
@@ -48,12 +32,12 @@ function scatter(options) {
     .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
-  const x = d3.scaleLinear()
+  const x_scale = d3.scaleLinear()
     .domain(x_domain)
     .range([0, width]);
   svg.append('g')
     .attr('transform', 'translate(0,' + height + ')')
-    .call(d3.axisBottom(x));
+    .call(d3.axisBottom(x_scale));
 
   svg.append('text')
     .attr('transform',
@@ -62,11 +46,11 @@ function scatter(options) {
     .style('text-anchor', 'middle')
     .text(x_axis_label);
 
-  const y = d3.scaleLinear()
+  const y_scale = d3.scaleLinear()
     .domain(y_domain)
     .range([height, 0]);
   svg.append('g')
-    .call(d3.axisLeft(y));
+    .call(d3.axisLeft(y_scale));
 
   svg.append('text')
     .attr('transform', 'rotate(-90)')
@@ -82,10 +66,10 @@ function scatter(options) {
     .enter()
     .append('circle')
     .attr('cx', function (d) {
-      return x(d[x_key]);
+      return x_scale(d[x_key]);
     })
     .attr('cy', function (d) {
-      return y(d[y_key]);
+      return y_scale(d[y_key]);
     })
     .attr('r', 4)
     .attr("class", function (d) {
@@ -106,19 +90,76 @@ function scatter(options) {
     r = regression_line(x_regression, y_regression);
     svg.append('g')
       .append('line')
-      .attr('x1', x(r.x1))
-      .attr('y1', y(r.y1))
-      .attr('x2', x(r.x2))
-      .attr('y2', y(r.y2))
+      .attr('x1', x_scale(r.x1))
+      .attr('y1', y_scale(r.y1))
+      .attr('x2', x_scale(r.x2))
+      .attr('y2', y_scale(r.y2))
       .attr('stroke-width', 5)
       .attr('opacity', .3)
       .attr('stroke', 'red');
   }
 
+  if (annotations) {
+    var lineGenerator = d3.line();
+    svg.append('g')
+      .selectAll('path')
+      .data(annotations)
+      .enter()
+      .append('path')
+      .attr('d', function (d) {
+        return lineGenerator([
+          [x_scale(d.x_value), y_scale(d.y_value)],
+          [x_scale(d.x_value) + d.x_adj, y_scale(d.y_value) + d.y_adj]
+        ]);
+      })
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2);
+
+    svg.append('g')
+      .selectAll('text')
+      .data(annotations)
+      .enter()
+      .append('text')
+      .attr('x', function (d) {
+        return x_scale(d.x_value) + d.x_adj
+      })
+      .attr('y', function (d) {
+        return y_scale(d.y_value) + d.y_adj
+      })
+      .attr('dy', function (d) {
+        return d.y_adj >= 0 ? '1em' : '-1.7em';
+      })
+      .attr('class', 'annotation_title')
+      .text(function (d) {
+        return d.title;
+      });
+
+    svg.append('g')
+      .selectAll('text')
+      .data(annotations)
+      .enter()
+      .append('text')
+      .attr('x', function (d) {
+        return x_scale(d.x_value) + d.x_adj
+      })
+      .attr('y', function (d) {
+        return y_scale(d.y_value) + d.y_adj
+      })
+      .attr('dy', function (d) {
+        return d.y_adj >= 0 ? '2.5em' : '-.5em';
+      })
+      .attr('class', 'annotation_text')
+      .text(function (d) {
+        return d.text;
+      });
+
+  }
+
   return {
     svg: svg,
-    x_scale: x,
-    y_scale: y
+    x_scale: x_scale,
+    y_scale: y_scale
   };
 }
 

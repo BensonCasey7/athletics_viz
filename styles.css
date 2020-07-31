@@ -25,6 +25,17 @@ body {
   fill: #08A045;
 }
 
+.annotation_title {
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.annotation_text {
+  font-weight: 200;
+  text-anchor: middle;
+  font-size: 14px;
+}
+
 .hidden {
   display: none;
 }
