@@ -29,14 +29,18 @@ body {
 }
 
 .nav__progress-bar--2 {
-  width: 33.3333%;
+  width: 25%;
 }
 
 .nav__progress-bar--3 {
-  width: 66.6667%;
+  width: 50%;
 }
 
 .nav__progress-bar--4 {
+  width: 75%;
+}
+
+.nav__progress-bar--5 {
   width: 100%;
 }
 
@@ -54,28 +58,52 @@ body {
 }
 
 .nav__progress-bar__bubble--2 {
-  left: 32%
+  left: 24%
 }
 
 .nav__progress-bar__bubble--3 {
-  left: 65%;
+  left: 49%;
 }
 
 .nav__progress-bar__bubble--4 {
+  left: 74%;
+}
+
+.nav__progress-bar__bubble--5 {
   left: 99%;
 }
 
 .nav__links {
-  width: 650px;
+  width: 750px;
   font-size: 14px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
+  margin: 0 auto 36px auto;
+  position: relative;
 }
 
 .nav__links__link {
   text-decoration: none;
   color: #000;
+  position: absolute;
+}
+
+.nav__links__link--1 {
+  left: 45px;
+}
+
+.nav__links__link--2 {
+  left: 170px;
+}
+
+.nav__links__link--3 {
+  left: 328px;
+}
+
+.nav__links__link--4 {
+  left: 480px;
+}
+
+.nav__links__link--5 {
+  left: 625px;
 }
 
 .nav__links__link:hover {
@@ -84,6 +112,10 @@ body {
 
 .nav__links__link--active {
   font-weight: 600;
+}
+
+.nav__links__link--understated {
+  color: #DDD;
 }
 
 .chart-panel {}
@@ -202,7 +234,7 @@ body {
 
 .hero__body {
   width: 900px;
-  margin: auto;
+  margin: 0 auto 48px auto;
   font-size: 24px;
 }
 
