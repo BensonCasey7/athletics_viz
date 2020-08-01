@@ -28,7 +28,7 @@
   <div class='page-wrapper'>
     <div class='flex'>
       <div class='chart-panel'>
-        <div class='chart-panel__title'>Walk Rate vs. Salary Per Player, 1995-2004</div>
+        <div class='chart-panel__title' id='chart-title'>Walk Rate vs. Salary Per Player, 1995-2004</div>
         <div id='walks_vs_salary'></div>
       </div>
 
@@ -65,23 +65,68 @@
     </div>
 
     <script>
-      year_range = [1994, 2005];
-      walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
-        return (item.yearID > year_range[0] && item.yearID < year_range[1] && item.AB > 100 && item.salary)
-      });
-      let walks_vs_salary = scatter({
+      let base_annotations = []
+      let scatter_options = {
         id: 'walks_vs_salary',
-        data: walks_vs_salary_data,
         x_axis_label: 'Salary',
         y_axis_label: 'Walk Rate',
         x_domain: [0, 15000000],
         y_domain: [0, 0.35],
         x_key: 'salary',
         y_key: 'walk_rate',
-        dot_radius: 2
-      });
+        highlight_key: 'teamID',
+        annotations: base_annotations
+      }
+
+      function generateWalkRate(years, relevant_team) {
+        let year_range = years || [1995, 2004];
+        let radius = years ? 4 : 2;
+        let walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
+          return (item.yearID >= year_range[0] && item.yearID <= year_range[1] && item.AB > 100 && item.salary)
+        });
+        let athletics = []
+        walks_vs_salary_data.forEach(function (d) {
+          if (d.teamID == 'OAK') {
+            athletics.push(d)
+          }
+        })
+        walks_vs_salary_data = walks_vs_salary_data.concat(athletics);
+        scatter_options.data = walks_vs_salary_data;
+        scatter_options.dot_radius = radius;
+        scatter_options.highlight_value = relevant_team;
+        let walks_vs_salary = scatter(scatter_options);
+      }
+      generateWalkRate();
+
 
       let current_slide = 1;
+      let slide_annotations = {
+        1: [],
+        2: [{
+          title: 'Greg Myers | 18.1% Walk Rate',
+          text: "Cost to A's: $800,000",
+          x_value: 800000,
+          y_value: 0.18056,
+          x_adj: 80,
+          y_adj: -80
+        },
+        {
+          title: 'David Justice | 17.6% Walk Rate',
+          text: "Cost to A's: $3,500,000",
+          x_value: 3500000,
+          y_value: 0.17588,
+          x_adj: 30,
+          y_adj: -30
+        },
+        {
+          title: 'Johnny Damon | 10.4% Walk Rate',
+          text: "Poached from A's by the Red Sox for $7,250,000",
+          x_value: 7250000,
+          y_value: 0.10433,
+          x_adj: 50,
+          y_adj: 50
+        }]
+      }
 
       function forward() {
         remove_slide();
@@ -105,6 +150,14 @@
 
       function change_slide() {
         document.getElementById('slide_' + current_slide).classList.remove('hidden');
+        scatter_options.annotations = base_annotations.concat(slide_annotations[current_slide]);
+        if (current_slide == 1) {
+          generateWalkRate();
+          document.getElementById('chart-title').innerHTML = 'Walk Rate vs. Salary Per Player, 1995-2004';
+        } else {
+          document.getElementById('chart-title').innerHTML = 'Walk Rate vs. Salary Per Player, 2002';
+          generateWalkRate([2002, 2002], 'OAK');
+        }
         updateButtons();
       }
 

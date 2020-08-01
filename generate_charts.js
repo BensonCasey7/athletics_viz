@@ -76,6 +76,7 @@ function scatter(options) {
     .attr("class", function (d) {
       if (highlight_value && highlight_value != 'false') {
         if (d[highlight_key] == highlight_value) {
+          console.log(d);
           return 'athletics'
         } else {
           return 'understated_element'
@@ -258,7 +259,7 @@ function bar(options) {
         .style("opacity", .9);
       div.html('Wins: ' + d.W + '<br>Salary: $' + d.salary )
         .style("left", (x.bandwidth() * i + 5) + "px")
-        .style("top", (y(d[y_key]) - 20) + "px");
+        .style("top", (y(d[y_key]) + 60) + "px");
     })
     .on("mouseout", function (d) {
       div.transition()
@@ -277,17 +278,6 @@ function regression_line(values_x, values_y) {
   let x = 0;
   let y = 0;
   let values_length = values_x.length;
-
-  if (values_length != values_y.length) {
-    throw new Error('The parameters values_x and values_y need to have same size!');
-  }
-
-  if (values_length === 0) {
-    return [
-      [],
-      []
-    ];
-  }
 
   for (let i = 0; i < values_length; i++) {
     x = values_x[i];
