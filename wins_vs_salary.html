@@ -11,16 +11,26 @@
 
 <body>
   <div class='nav'>
-    <a href='./index.html'>Overview</a>
-    <a href='./wins_vs_salary.html' class='active'>An Unfair System</a>
-    <a href='./cost_per_win.html'>Cost Per Win</a>
-    <a href='./finding_wins.html'>Finding Wins</a>
+    <div class='nav__progress-bar__wrapper'>
+      <div class='nav__progress-bar nav__progress-bar--2'></div>
+      <div class='nav__progress-bar__bubble nav__progress-bar__bubble--2'></div>
+    </div>
+  
+    <div class='nav__links'>
+      <a href='./index.html' class='nav__links__link'>Overview</a>
+      <a href='./wins_vs_salary.html' class='nav__links__link nav__links__link--active'>An Unfair System</a>
+      <a href='./cost_per_win.html' class='nav__links__link'>Cost Per Win</a>
+      <a href='./finding_wins.html' class='nav__links__link'>Finding Wins</a>
+    </div>
   </div>
   <div class='page-wrapper'>
     <div class='flex'>
-      <div id='wins_vs_payroll'></div>
+      <div class='chart-panel'>
+        <div class='chart-panel__title'>Season Wins vs. Payroll, 1995-2004</div>
+        <div id='wins_vs_payroll'></div>
+      </div>
 
-      <div class='slides'>
+      <div class='slide-panel'>
         <div>
           <div id='slide_1'>
             <h3 class='slide_header'>An Unfair System</h3>
@@ -243,7 +253,6 @@
       let last_el = document.getElementById('last_button')
       if (current_slide == 5) {
         next_el.innerHTML = 'Next'
-        // next_el.setAttribute("href", "./cost_per_win.html")
         setTimeout(function () {
           next_el.setAttribute("href", "./cost_per_win.html")
         }, 1)
