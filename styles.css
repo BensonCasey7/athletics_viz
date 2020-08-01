@@ -254,3 +254,13 @@ body {
 .hero__button:hover {
   background-color: #035e27;
 }
+
+.footer {
+  position: fixed;
+  padding: 6px;
+  font-size: 10px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #F4F4F4;
+}
