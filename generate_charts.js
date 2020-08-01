@@ -98,11 +98,11 @@ function scatter(options) {
         div.html(d.yearID.toString() + ' ' + d.name + '<br>Wins: ' + d.W + ' | Payroll: $' + d.salary.toString().slice(0, -6) + 'M')
           .style("left", (x_scale(d[x_key])) + "px")
           .style("top", (y_scale(d[y_key]) + 60) + "px");
-      } else if (tooltip == 'walks' ) {
+      } else if (tooltip == 'walks') {
         div.transition()
           .duration(100)
           .style("opacity", .9);
-        div.html('Walk Rate: %' + (d.walk_rate*100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+        div.html('Walk Rate: %' + (d.walk_rate * 100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
           .style("left", (x_scale(d[x_key])) + "px")
           .style("top", (y_scale(d[y_key]) + 60) + "px");
       }
@@ -112,7 +112,7 @@ function scatter(options) {
         div.transition()
           .duration(100)
           .style("opacity", 0);
-      } else if (tooltip == 'walks' ) {
+      } else if (tooltip == 'walks') {
         div.transition()
           .duration(100)
           .style("opacity", 0);
@@ -214,7 +214,7 @@ function bar(options) {
       top: 10,
       right: 0,
       bottom: 110,
-      left: 60
+      left: 80
     },
     width = svg_width - margin.left - margin.right,
     height = svg_height - margin.top - margin.bottom;
@@ -243,6 +243,15 @@ function bar(options) {
     .attr("class", "bar-tooltip")
     .style("opacity", 0);
 
+
+  g.append('text')
+    .attr('transform', 'rotate(-90)')
+    .attr('y', 0 - margin.left)
+    .attr('x', 0 - (height / 2))
+    .attr('dy', '1em')
+    .style('text-anchor', 'middle')
+    .text(y_axis_label);
+
   g.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x))
@@ -256,13 +265,7 @@ function bar(options) {
 
   g.append("g")
     .call(d3.axisLeft(y))
-    .append("text")
-    .attr("fill", "#000")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", "0.71em")
-    .attr("text-anchor", "end")
-    .text(y_axis_label);
+
 
   g.selectAll(".bar")
     .data(data)
@@ -270,7 +273,7 @@ function bar(options) {
     .append("rect")
     .attr("class", "bar")
     .attr("x", function (d, i) {
-      return x.bandwidth() * i + 5;
+      return x.bandwidth() * i + 11;
     })
     .attr("y", function (d) {
       return y(d[y_key]);
