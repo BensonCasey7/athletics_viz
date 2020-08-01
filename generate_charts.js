@@ -14,6 +14,7 @@ function scatter(options) {
   const highlight_value = options.highlight_value || false;
   const annotations = options.annotations || false;
   const dot_radius = options.dot_radius || 4;
+  const tooltip = options.tooltip || false;
 
   const margin = {
       top: 10,
@@ -23,6 +24,10 @@ function scatter(options) {
     },
     width = svg_width - margin.left - margin.right,
     height = svg_height - margin.top - margin.bottom;
+
+  var div = d3.select("body").append("div")
+    .attr("class", "scatter-tooltip")
+    .style("opacity", 0);
 
   d3.select(id).selectAll("*").remove();
   let svg = d3.select(id)
@@ -83,6 +88,34 @@ function scatter(options) {
         }
       } else {
         return 'chart_element';
+      }
+    })
+    .on("mouseover", function (d, i) {
+      if (tooltip == 'wins') {
+        div.transition()
+          .duration(100)
+          .style("opacity", .9);
+        div.html(d.yearID.toString() + ' ' + d.name + '<br>Wins: ' + d.W + ' | Payroll: $' + d.salary.toString().slice(0, -6) + 'M')
+          .style("left", (x_scale(d[x_key])) + "px")
+          .style("top", (y_scale(d[y_key]) + 60) + "px");
+      } else if (tooltip == 'walks' ) {
+        div.transition()
+          .duration(100)
+          .style("opacity", .9);
+        div.html('Walk Rate: %' + (d.walk_rate*100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+          .style("left", (x_scale(d[x_key])) + "px")
+          .style("top", (y_scale(d[y_key]) + 60) + "px");
+      }
+    })
+    .on("mouseout", function (d) {
+      if (tooltip == 'wins') {
+        div.transition()
+          .duration(100)
+          .style("opacity", 0);
+      } else if (tooltip == 'walks' ) {
+        div.transition()
+          .duration(100)
+          .style("opacity", 0);
       }
     });
 
@@ -257,7 +290,7 @@ function bar(options) {
       div.transition()
         .duration(100)
         .style("opacity", .9);
-      div.html('Wins: ' + d.W + '<br>Salary: $' + d.salary )
+      div.html('Wins: ' + d.W + '<br>Salary: $' + d.salary)
         .style("left", (x.bandwidth() * i + 5) + "px")
         .style("top", (y(d[y_key]) + 60) + "px");
     })

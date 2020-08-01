@@ -68,14 +68,15 @@
       let base_annotations = []
       let scatter_options = {
         id: 'walks_vs_salary',
-        x_axis_label: 'Salary',
+        x_axis_label: 'Salary (USD)',
         y_axis_label: 'Walk Rate',
         x_domain: [0, 15000000],
         y_domain: [0, 0.35],
         x_key: 'salary',
         y_key: 'walk_rate',
         highlight_key: 'teamID',
-        annotations: base_annotations
+        annotations: base_annotations,
+        tooltip: 'walks'
       }
 
       function generateWalkRate(years, relevant_team) {
@@ -103,29 +104,30 @@
       let slide_annotations = {
         1: [],
         2: [{
-          title: 'Greg Myers | 18.1% Walk Rate',
-          text: "Cost to A's: $800,000",
-          x_value: 800000,
-          y_value: 0.18056,
-          x_adj: 80,
-          y_adj: -80
-        },
-        {
-          title: 'David Justice | 17.6% Walk Rate',
-          text: "Cost to A's: $3,500,000",
-          x_value: 3500000,
-          y_value: 0.17588,
-          x_adj: 30,
-          y_adj: -30
-        },
-        {
-          title: 'Johnny Damon | 10.4% Walk Rate',
-          text: "Poached from A's by the Red Sox for $7,250,000",
-          x_value: 7250000,
-          y_value: 0.10433,
-          x_adj: 50,
-          y_adj: 50
-        }]
+            title: 'Greg Myers | 18.1% Walk Rate',
+            text: "Cost to A's: $800,000",
+            x_value: 800000,
+            y_value: 0.18056,
+            x_adj: 80,
+            y_adj: -80
+          },
+          {
+            title: 'David Justice | 17.6% Walk Rate',
+            text: "Cost to A's: $3,500,000",
+            x_value: 3500000,
+            y_value: 0.17588,
+            x_adj: 30,
+            y_adj: -30
+          },
+          {
+            title: 'Johnny Damon | 10.4% Walk Rate',
+            text: "Poached from A's by the Red Sox for $7,250,000",
+            x_value: 7250000,
+            y_value: 0.10433,
+            x_adj: 50,
+            y_adj: 50
+          }
+        ]
       }
 
       function forward() {

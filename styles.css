@@ -185,6 +185,14 @@ body {
   pointer-events: none;
 }
 
+.scatter-tooltip {
+  position: absolute;
+  padding: 6px;
+  background: #DDD;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
 .hero__title {
   margin: 60px 0 24px 0;
   text-align: center;
