@@ -105,6 +105,13 @@ function scatter(options) {
         div.html('Walk Rate: %' + (d.walk_rate * 100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
           .style('left', (xScale(d[xKey])) + 'px')
           .style('top', (yScale(d[yKey]) + 60) + 'px');
+      } else if (tooltip == 'winsVsWalks') {
+        div.transition()
+          .duration(100)
+          .style('opacity', .9);
+        div.html('Walks: ' + d.BB  + '<br>Wins: ' + d.W)
+          .style('left', (xScale(d[xKey])) + 'px')
+          .style('top', (yScale(d[yKey]) + 60) + 'px');
       }
     })
     .on('mouseout', function (d) {
@@ -113,6 +120,10 @@ function scatter(options) {
           .duration(100)
           .style('opacity', 0);
       } else if (tooltip == 'walks') {
+        div.transition()
+          .duration(100)
+          .style('opacity', 0);
+      } else if (tooltip == 'winsVsWalks') {
         div.transition()
           .duration(100)
           .style('opacity', 0);
