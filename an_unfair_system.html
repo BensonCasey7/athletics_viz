@@ -3,7 +3,7 @@
 
 <head>
   <title>Moneyball</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel='stylesheet' type='text/css' href='styles.css'>
   <script src='https://d3js.org/d3.v5.js'></script>
   <script src='./data.js'></script>
   <script src='./generate_charts.js'></script>
@@ -101,9 +101,9 @@
         </div>
 
         <div class='slide-navigation'>
-          <a href='#' id='last_button' onclick="back()"
+          <a href='#' id='last_button' onclick='back()'
             class='slide-navigation__button slide-navigation__button--inactive'>&lt;</a>
-          <a href='#' id='next_button' onclick="forward()" class='slide-navigation__button'>&gt;</a>
+          <a href='#' id='next_button' onclick='forward()' class='slide-navigation__button'>&gt;</a>
         </div>
       </div>
     </div>
@@ -160,21 +160,21 @@
     }
     generateTeamsWithSalary();
 
-    let selectParent = document.getElementById("wins_vs_payroll_select");;
+    let selectParent = document.getElementById('wins_vs_payroll_select');;
 
     let teams = Array.from(new Set(teams_with_salaries_data.map(function (d) {
       return d.name
     })));
-    let select = document.createElement("select");
-    select.setAttribute("onchange", 'generateTeamsWithSalary(this.value)');
+    let select = document.createElement('select');
+    select.setAttribute('onchange', 'generateTeamsWithSalary(this.value)');
     selectParent.appendChild(select);
 
-    let option = document.createElement("option");
+    let option = document.createElement('option');
     option.value = false;
     option.text = 'Select a Team';
     select.appendChild(option);
     for (let i = 0; i < teams.length; i++) {
-      let option = document.createElement("option");
+      let option = document.createElement('option');
       option.value = teams[i];
       option.text = teams[i];
       select.appendChild(option);
@@ -264,7 +264,7 @@
       if (current_slide == 5) {
         next_el.innerHTML = 'Next'
         setTimeout(function () {
-          next_el.href= "./efficiency_kings.html"
+          next_el.href= './efficiency_kings.html'
         }, 1)
       } else {
         next_el.innerHTML = '>'

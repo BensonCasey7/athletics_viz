@@ -25,11 +25,11 @@ function scatter(options) {
     width = svg_width - margin.left - margin.right,
     height = svg_height - margin.top - margin.bottom;
 
-  var div = d3.select("body").append("div")
-    .attr("class", "scatter-tooltip")
-    .style("opacity", 0);
+  var div = d3.select('body').append('div')
+    .attr('class', 'scatter-tooltip')
+    .style('opacity', 0);
 
-  d3.select(id).selectAll("*").remove();
+  d3.select(id).selectAll('*').remove();
   let svg = d3.select(id)
     .append('svg')
     .attr('width', width + margin.left + margin.right)
@@ -78,7 +78,7 @@ function scatter(options) {
       return y_scale(d[y_key]);
     })
     .attr('r', dot_radius)
-    .attr("class", function (d) {
+    .attr('class', function (d) {
       if (highlight_value && highlight_value != 'false') {
         if (d[highlight_key] == highlight_value) {
           console.log(d);
@@ -90,32 +90,32 @@ function scatter(options) {
         return 'chart_element';
       }
     })
-    .on("mouseover", function (d, i) {
+    .on('mouseover', function (d, i) {
       if (tooltip == 'wins') {
         div.transition()
           .duration(100)
-          .style("opacity", .9);
+          .style('opacity', .9);
         div.html(d.yearID.toString() + ' ' + d.name + '<br>Wins: ' + d.W + ' | Payroll: $' + d.salary.toString().slice(0, -6) + 'M')
-          .style("left", (x_scale(d[x_key])) + "px")
-          .style("top", (y_scale(d[y_key]) + 60) + "px");
+          .style('left', (x_scale(d[x_key])) + 'px')
+          .style('top', (y_scale(d[y_key]) + 60) + 'px');
       } else if (tooltip == 'walks') {
         div.transition()
           .duration(100)
-          .style("opacity", .9);
-        div.html('Walk Rate: %' + (d.walk_rate * 100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-          .style("left", (x_scale(d[x_key])) + "px")
-          .style("top", (y_scale(d[y_key]) + 60) + "px");
+          .style('opacity', .9);
+        div.html('Walk Rate: %' + (d.walk_rate * 100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+          .style('left', (x_scale(d[x_key])) + 'px')
+          .style('top', (y_scale(d[y_key]) + 60) + 'px');
       }
     })
-    .on("mouseout", function (d) {
+    .on('mouseout', function (d) {
       if (tooltip == 'wins') {
         div.transition()
           .duration(100)
-          .style("opacity", 0);
+          .style('opacity', 0);
       } else if (tooltip == 'walks') {
         div.transition()
           .duration(100)
-          .style("opacity", 0);
+          .style('opacity', 0);
       }
     });
 
@@ -222,9 +222,9 @@ function bar(options) {
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom);
-  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  var parseTime = d3.timeParse("%d-%b-%y");
+  var parseTime = d3.timeParse('%d-%b-%y');
 
   var x = d3.scaleBand()
     .rangeRound([0, width])
@@ -239,9 +239,9 @@ function bar(options) {
     return Number(d[y_key]);
   }) + 200000]);
 
-  var div = d3.select("body").append("div")
-    .attr("class", "bar-tooltip")
-    .style("opacity", 0);
+  var div = d3.select('body').append('div')
+    .attr('class', 'bar-tooltip')
+    .style('opacity', 0);
 
 
   g.append('text')
@@ -252,55 +252,55 @@ function bar(options) {
     .style('text-anchor', 'middle')
     .text(y_axis_label);
 
-  g.append("g")
-    .attr("transform", "translate(0," + height + ")")
+  g.append('g')
+    .attr('transform', 'translate(0,' + height + ')')
     .call(d3.axisBottom(x))
-    .selectAll("text")
-    .style("text-anchor", "end")
-    .attr("dx", "-.8em")
-    .attr("dy", "0em")
-    .attr("transform", function (d) {
-      return "rotate(-65)"
+    .selectAll('text')
+    .style('text-anchor', 'end')
+    .attr('dx', '-.8em')
+    .attr('dy', '0em')
+    .attr('transform', function (d) {
+      return 'rotate(-65)'
     });
 
-  g.append("g")
+  g.append('g')
     .call(d3.axisLeft(y))
 
 
-  g.selectAll(".bar")
+  g.selectAll('.bar')
     .data(data)
     .enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("x", function (d, i) {
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('x', function (d, i) {
       return x.bandwidth() * i + 11;
     })
-    .attr("y", function (d) {
+    .attr('y', function (d) {
       return y(d[y_key]);
     })
-    .attr("width", x.bandwidth() - 4)
-    .attr("height", function (d) {
+    .attr('width', x.bandwidth() - 4)
+    .attr('height', function (d) {
       return height - y(d[y_key]);
     })
-    .attr("class", function (d) {
+    .attr('class', function (d) {
       if (d.teamID == 'OAK') {
         return 'athletics athletics--interactive'
       } else {
         return 'chart_element chart_element--interactive'
       }
     })
-    .on("mouseover", function (d, i) {
+    .on('mouseover', function (d, i) {
       div.transition()
         .duration(100)
-        .style("opacity", .9);
-      div.html('Wins: ' + d.W + ' | Salary: $' + d.salary.toString().slice(0, -6) + 'M' + '<br>Cost per win: $' + Math.round(d[y_key]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-        .style("left", (x.bandwidth() * i + 5) + "px")
-        .style("top", (y(d[y_key]) + 60) + "px");
+        .style('opacity', .9);
+      div.html('Wins: ' + d.W + ' | Salary: $' + d.salary.toString().slice(0, -6) + 'M' + '<br>Cost per win: $' + Math.round(d[y_key]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+        .style('left', (x.bandwidth() * i + 5) + 'px')
+        .style('top', (y(d[y_key]) + 60) + 'px');
     })
-    .on("mouseout", function (d) {
+    .on('mouseout', function (d) {
       div.transition()
         .duration(100)
-        .style("opacity", 0);
+        .style('opacity', 0);
     });
 }
 

@@ -3,7 +3,7 @@
 
 <head>
   <title>Moneyball</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel='stylesheet' type='text/css' href='styles.css'>
   <script src='https://d3js.org/d3.v5.js'></script>
   <script src='./data.js'></script>
   <script src='./generate_charts.js'></script>
@@ -57,8 +57,8 @@
         </div>
 
         <div class='slide-navigation'>
-          <a href='./walk_then_run.html' id='last_button' onclick="back()" class='slide-navigation__button'>Back</a>
-          <a href='#' id='next_button' onclick="forward()" class='slide-navigation__button'>&gt;</a>
+          <a href='./walk_then_run.html' id='last_button' onclick='back()' class='slide-navigation__button'>Back</a>
+          <a href='#' id='next_button' onclick='forward()' class='slide-navigation__button'>&gt;</a>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@
         if (current_slide == 1) {
           last_el.innerHTML = 'Back'
           setTimeout(function () {
-            last_el.href = "./walk_then_run.html"
+            last_el.href = './walk_then_run.html'
           }, 1)
         } else {
           last_el.innerHTML = '<'
