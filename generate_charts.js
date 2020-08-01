@@ -1,17 +1,17 @@
 function scatter(options) {
   const id = '#' + options.id;
   const data = options.data;
-  const x_axis_label = options.x_axis_label;
-  const y_axis_label = options.y_axis_label;
-  const x_domain = options.x_domain;
-  const y_domain = options.y_domain;
-  const x_key = options.x_key;
-  const y_key = options.y_key;
+  const xAxisLabel = options.xAxisLabel;
+  const yAxisLabel = options.yAxisLabel;
+  const xDomain = options.xDomain;
+  const yDomain = options.yDomain;
+  const xKey = options.xKey;
+  const yKey = options.yKey;
   const svg_width = options.width || 1000;
   const svg_height = options.height || 500;
   const regression = options.regression || false;
-  const highlight_key = options.highlight_key;
-  const highlight_value = options.highlight_value || false;
+  const highlightKey = options.highlightKey;
+  const highlightValue = options.highlightValue || false;
   const annotations = options.annotations || false;
   const dot_radius = options.dot_radius || 4;
   const tooltip = options.tooltip || false;
@@ -38,25 +38,25 @@ function scatter(options) {
     .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
-  const x_scale = d3.scaleLinear()
-    .domain(x_domain)
+  const xScale = d3.scaleLinear()
+    .domain(xDomain)
     .range([0, width]);
   svg.append('g')
     .attr('transform', 'translate(0,' + height + ')')
-    .call(d3.axisBottom(x_scale));
+    .call(d3.axisBottom(xScale));
 
   svg.append('text')
     .attr('transform',
       'translate(' + (width / 2) + ' ,' +
       (height + margin.top + 35) + ')')
     .style('text-anchor', 'middle')
-    .text(x_axis_label);
+    .text(xAxisLabel);
 
-  const y_scale = d3.scaleLinear()
-    .domain(y_domain)
+  const yScale = d3.scaleLinear()
+    .domain(yDomain)
     .range([height, 0]);
   svg.append('g')
-    .call(d3.axisLeft(y_scale));
+    .call(d3.axisLeft(yScale));
 
   svg.append('text')
     .attr('transform', 'rotate(-90)')
@@ -64,7 +64,7 @@ function scatter(options) {
     .attr('x', 0 - (height / 2))
     .attr('dy', '1em')
     .style('text-anchor', 'middle')
-    .text(y_axis_label);
+    .text(yAxisLabel);
 
   svg.append('g')
     .selectAll('dot')
@@ -72,15 +72,15 @@ function scatter(options) {
     .enter()
     .append('circle')
     .attr('cx', function (d) {
-      return x_scale(d[x_key]);
+      return xScale(d[xKey]);
     })
     .attr('cy', function (d) {
-      return y_scale(d[y_key]);
+      return yScale(d[yKey]);
     })
     .attr('r', dot_radius)
     .attr('class', function (d) {
-      if (highlight_value && highlight_value != 'false') {
-        if (d[highlight_key] == highlight_value) {
+      if (highlightValue && highlightValue != 'false') {
+        if (d[highlightKey] == highlightValue) {
           console.log(d);
           return 'athletics'
         } else {
@@ -96,15 +96,15 @@ function scatter(options) {
           .duration(100)
           .style('opacity', .9);
         div.html(d.yearID.toString() + ' ' + d.name + '<br>Wins: ' + d.W + ' | Payroll: $' + d.salary.toString().slice(0, -6) + 'M')
-          .style('left', (x_scale(d[x_key])) + 'px')
-          .style('top', (y_scale(d[y_key]) + 60) + 'px');
+          .style('left', (xScale(d[xKey])) + 'px')
+          .style('top', (yScale(d[yKey]) + 60) + 'px');
       } else if (tooltip == 'walks') {
         div.transition()
           .duration(100)
           .style('opacity', .9);
         div.html('Walk Rate: %' + (d.walk_rate * 100).toFixed(1) + '<br>Salary: $' + d.salary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
-          .style('left', (x_scale(d[x_key])) + 'px')
-          .style('top', (y_scale(d[y_key]) + 60) + 'px');
+          .style('left', (xScale(d[xKey])) + 'px')
+          .style('top', (yScale(d[yKey]) + 60) + 'px');
       }
     })
     .on('mouseout', function (d) {
@@ -120,15 +120,15 @@ function scatter(options) {
     });
 
   if (regression) {
-    x_regression = data.map(d => d[x_key]);
-    y_regression = data.map(d => d[y_key]);
+    x_regression = data.map(d => d[xKey]);
+    y_regression = data.map(d => d[yKey]);
     r = regression_line(x_regression, y_regression);
     svg.append('g')
       .append('line')
-      .attr('x1', x_scale(r.x1))
-      .attr('y1', y_scale(r.y1))
-      .attr('x2', x_scale(r.x2))
-      .attr('y2', y_scale(r.y2))
+      .attr('x1', xScale(r.x1))
+      .attr('y1', yScale(r.y1))
+      .attr('x2', xScale(r.x2))
+      .attr('y2', yScale(r.y2))
       .attr('stroke-width', 5)
       .attr('opacity', .3)
       .attr('stroke', 'red');
@@ -143,8 +143,8 @@ function scatter(options) {
       .append('path')
       .attr('d', function (d) {
         return lineGenerator([
-          [x_scale(d.x_value), y_scale(d.y_value)],
-          [x_scale(d.x_value) + d.x_adj, y_scale(d.y_value) + d.y_adj]
+          [xScale(d.xValue), yScale(d.yValue)],
+          [xScale(d.xValue) + d.xAdj, yScale(d.yValue) + d.yAdj]
         ]);
       })
       .attr('fill', 'none')
@@ -157,13 +157,13 @@ function scatter(options) {
       .enter()
       .append('text')
       .attr('x', function (d) {
-        return x_scale(d.x_value) + d.x_adj
+        return xScale(d.xValue) + d.xAdj
       })
       .attr('y', function (d) {
-        return y_scale(d.y_value) + d.y_adj
+        return yScale(d.yValue) + d.yAdj
       })
       .attr('dy', function (d) {
-        return d.y_adj >= 0 ? '1em' : '-1.7em';
+        return d.yAdj >= 0 ? '1em' : '-1.7em';
       })
       .attr('class', 'annotation_title')
       .text(function (d) {
@@ -176,13 +176,13 @@ function scatter(options) {
       .enter()
       .append('text')
       .attr('x', function (d) {
-        return x_scale(d.x_value) + d.x_adj
+        return xScale(d.xValue) + d.xAdj
       })
       .attr('y', function (d) {
-        return y_scale(d.y_value) + d.y_adj
+        return yScale(d.yValue) + d.yAdj
       })
       .attr('dy', function (d) {
-        return d.y_adj >= 0 ? '2.5em' : '-.5em';
+        return d.yAdj >= 0 ? '2.5em' : '-.5em';
       })
       .attr('class', 'annotation_text')
       .text(function (d) {
@@ -193,20 +193,20 @@ function scatter(options) {
 
   return {
     svg: svg,
-    x_scale: x_scale,
-    y_scale: y_scale
+    xScale: xScale,
+    yScale: yScale
   };
 }
 
 function bar(options) {
   const id = '#' + options.id;
   const data = options.data;
-  const x_axis_label = options.x_axis_label;
-  const y_axis_label = options.y_axis_label;
-  const x_domain = options.x_domain;
-  const y_domain = options.y_domain;
-  const x_key = options.x_key;
-  const y_key = options.y_key;
+  const xAxisLabel = options.xAxisLabel;
+  const yAxisLabel = options.yAxisLabel;
+  const xDomain = options.xDomain;
+  const yDomain = options.yDomain;
+  const xKey = options.xKey;
+  const yKey = options.yKey;
   const svg_width = options.width || 1000;
   const svg_height = options.height || 500;
 
@@ -233,10 +233,10 @@ function bar(options) {
     .rangeRound([height, 0]);
 
   x.domain(data.map(function (d) {
-    return d[x_key];
+    return d[xKey];
   }));
   y.domain([0, d3.max(data, function (d) {
-    return Number(d[y_key]);
+    return Number(d[yKey]);
   }) + 200000]);
 
   var div = d3.select('body').append('div')
@@ -250,7 +250,7 @@ function bar(options) {
     .attr('x', 0 - (height / 2))
     .attr('dy', '1em')
     .style('text-anchor', 'middle')
-    .text(y_axis_label);
+    .text(yAxisLabel);
 
   g.append('g')
     .attr('transform', 'translate(0,' + height + ')')
@@ -276,11 +276,11 @@ function bar(options) {
       return x.bandwidth() * i + 11;
     })
     .attr('y', function (d) {
-      return y(d[y_key]);
+      return y(d[yKey]);
     })
     .attr('width', x.bandwidth() - 4)
     .attr('height', function (d) {
-      return height - y(d[y_key]);
+      return height - y(d[yKey]);
     })
     .attr('class', function (d) {
       if (d.teamID == 'OAK') {
@@ -293,9 +293,9 @@ function bar(options) {
       div.transition()
         .duration(100)
         .style('opacity', .9);
-      div.html('Wins: ' + d.W + ' | Salary: $' + d.salary.toString().slice(0, -6) + 'M' + '<br>Cost per win: $' + Math.round(d[y_key]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+      div.html('Wins: ' + d.W + ' | Salary: $' + d.salary.toString().slice(0, -6) + 'M' + '<br>Cost per win: $' + Math.round(d[yKey]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
         .style('left', (x.bandwidth() * i + 5) + 'px')
-        .style('top', (y(d[y_key]) + 60) + 'px');
+        .style('top', (y(d[yKey]) + 60) + 'px');
     })
     .on('mouseout', function (d) {
       div.transition()

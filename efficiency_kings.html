@@ -34,9 +34,9 @@
 
       <div class='slide-panel'>
         <div>
-          <div id='slide_1'>
-            <h3 class='slide_header'>Efficiency Kings</h3>
-            <div class='slide_copy'>
+          <div id='slide--1'>
+            <h3 class='slide--header'>Efficiency Kings</h3>
+            <div class='slide--copy'>
               <p>
                 Cost per win is a way to measure how good a team is at acquiring talent on the cheap. The 2002 Athletics were extremely efficient with their payroll, boasting an MLB best $388,390 per win.
               </p>
@@ -65,17 +65,17 @@
   </div>
 
   <script>
-    let cost_per_win_data = cost_per_win.data.filter(function (item) {
+    let costPerWinData = costPerWin.data.filter(function (item) {
       return (item.yearID == 2002)
     })
-    cost_per_win_data = cost_per_win_data.sort((a, b) => (a.cost_per_win > b.cost_per_win) ? 1 : -1)
+    costPerWinData = costPerWinData.sort((a, b) => (a.cost_per_win > b.cost_per_win) ? 1 : -1)
     bar({
       id: 'cost_per_win',
-      data: cost_per_win_data,
-      x_axis_label: 'Team',
-      y_axis_label: 'Cost Per Win',
-      x_key: 'name',
-      y_key: 'cost_per_win'
+      data: costPerWinData,
+      xAxisLabel: 'Team',
+      yAxisLabel: 'Cost Per Win',
+      xKey: 'name',
+      yKey: 'cost_per_win'
     })
   </script>
 </body>

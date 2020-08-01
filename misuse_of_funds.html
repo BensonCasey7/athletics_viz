@@ -34,31 +34,31 @@
 
       <div class='slide-panel'>
         <div>
-          <div id='slide_1'>
-            <h3 class='slide_header'>Misuse of Funds</h3>
-            <div class='slide_copy'>
+          <div id='slide--1'>
+            <h3 class='slide--header'>Misuse of Funds</h3>
+            <div class='slide--copy'>
               <p>
                 Despite the teams who walk more often tend to win more often, a player's walk rate had no detectable
                 impact on their salary. Players who were proficient at taking walks tended to fly under the radar or
                 were viewed as incapable of hitting despite the positive impact they had on their team's success.
               </p>
             </div>
-            <div id='wins_vs_payroll_select'></div>
+            <div id='winsVsPayrollSelect'></div>
           </div>
-          <div id='slide_2' class='hidden'>
-            <h3 class='slide_header'>The Athletics see an opportunity</h3>
-            <div class='slide_copy'>
+          <div id='slide--2' class='hidden'>
+            <h3 class='slide--header'>The Athletics see an opportunity</h3>
+            <div class='slide--copy'>
               <p>
                 Having lost key players like Johnny Damon and Jason Giambi to much wealthier teams prior to the 2002 season, the Athletics sought out players who were both cheap and took walks at a high rate.
               </p>
             </div>
-            <div id='wins_vs_payroll_select'></div>
+            <div id='winsVsPayrollSelect'></div>
           </div>
         </div>
 
         <div class='slide-navigation'>
-          <a href='./walk_then_run.html' id='last_button' onclick='back()' class='slide-navigation__button'>Back</a>
-          <a href='#' id='next_button' onclick='forward()' class='slide-navigation__button'>&gt;</a>
+          <a href='./walk_then_run.html' id='lastButton' onclick='back()' class='slide-navigation__button'>Back</a>
+          <a href='#' id='nextButton' onclick='forward()' class='slide-navigation__button'>&gt;</a>
         </div>
       </div>
     </div>
@@ -72,95 +72,95 @@
     </div>
 
     <script>
-      let base_annotations = []
-      let scatter_options = {
+      let baseAnnotations = []
+      let scatterOptions = {
         id: 'walks_vs_salary',
-        x_axis_label: 'Salary (USD)',
-        y_axis_label: 'Walk Rate',
-        x_domain: [0, 15000000],
-        y_domain: [0, 0.35],
-        x_key: 'salary',
-        y_key: 'walk_rate',
-        highlight_key: 'teamID',
-        annotations: base_annotations,
+        xAxisLabel: 'Salary (USD)',
+        yAxisLabel: 'Walk Rate',
+        xDomain: [0, 15000000],
+        yDomain: [0, 0.35],
+        xKey: 'salary',
+        yKey: 'walk_rate',
+        highlightKey: 'teamID',
+        annotations: baseAnnotations,
         tooltip: 'walks'
       }
 
-      function generateWalkRate(years, relevant_team) {
-        let year_range = years || [1995, 2004];
+      function generateWalkRate(years, relevantTeam) {
+        let yearRange = years || [1995, 2004];
         let radius = years ? 4 : 2;
-        let walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
-          return (item.yearID >= year_range[0] && item.yearID <= year_range[1] && item.AB > 100 && item.salary)
+        let walksVsSalaryData = battingWithSalaries.data.filter(function (item) {
+          return (item.yearID >= yearRange[0] && item.yearID <= yearRange[1] && item.AB > 100 && item.salary)
         });
         let athletics = []
-        walks_vs_salary_data.forEach(function (d) {
+        walksVsSalaryData.forEach(function (d) {
           if (d.teamID == 'OAK') {
             athletics.push(d)
           }
         })
-        walks_vs_salary_data = walks_vs_salary_data.concat(athletics);
-        scatter_options.data = walks_vs_salary_data;
-        scatter_options.dot_radius = radius;
-        scatter_options.highlight_value = relevant_team;
-        let walks_vs_salary = scatter(scatter_options);
+        walksVsSalaryData = walksVsSalaryData.concat(athletics);
+        scatterOptions.data = walksVsSalaryData;
+        scatterOptions.dot_radius = radius;
+        scatterOptions.highlightValue = relevantTeam;
+        let walks_vs_salary = scatter(scatterOptions);
       }
       generateWalkRate();
 
 
-      let current_slide = 1;
-      let slide_annotations = {
+      let currentSlide = 1;
+      let slideAnnotations = {
         1: [],
         2: [{
             title: 'Greg Myers | 18.1% Walk Rate',
             text: "Cost to A's: $800,000",
-            x_value: 800000,
-            y_value: 0.18056,
-            x_adj: 80,
-            y_adj: -80
+            xValue: 800000,
+            yValue: 0.18056,
+            xAdj: 80,
+            yAdj: -80
           },
           {
             title: 'David Justice | 17.6% Walk Rate',
             text: "Cost to A's: $3,500,000",
-            x_value: 3500000,
-            y_value: 0.17588,
-            x_adj: 30,
-            y_adj: -30
+            xValue: 3500000,
+            yValue: 0.17588,
+            xAdj: 30,
+            yAdj: -30
           },
           {
             title: 'Johnny Damon | 10.4% Walk Rate',
             text: "Poached from A's by the Red Sox for $7,250,000",
-            x_value: 7250000,
-            y_value: 0.10433,
-            x_adj: 50,
-            y_adj: 50
+            xValue: 7250000,
+            yValue: 0.10433,
+            xAdj: 50,
+            yAdj: 50
           }
         ]
       }
 
       function forward() {
-        remove_slide();
-        if (current_slide < 2) {
-          current_slide++;
+        removeSlide();
+        if (currentSlide < 2) {
+          currentSlide++;
         }
-        change_slide();
+        changeSlide();
       }
 
       function back() {
-        remove_slide();
-        if (current_slide > 1) {
-          current_slide--;
+        removeSlide();
+        if (currentSlide > 1) {
+          currentSlide--;
         }
-        change_slide();
+        changeSlide();
       }
 
-      function remove_slide() {
-        document.getElementById('slide_' + current_slide).classList.add('hidden');
+      function removeSlide() {
+        document.getElementById('slide--' + currentSlide).classList.add('hidden');
       }
 
-      function change_slide() {
-        document.getElementById('slide_' + current_slide).classList.remove('hidden');
-        scatter_options.annotations = base_annotations.concat(slide_annotations[current_slide]);
-        if (current_slide == 1) {
+      function changeSlide() {
+        document.getElementById('slide--' + currentSlide).classList.remove('hidden');
+        scatterOptions.annotations = baseAnnotations.concat(slideAnnotations[currentSlide]);
+        if (currentSlide == 1) {
           generateWalkRate();
           document.getElementById('chart-title').innerHTML = 'Walk Rate vs. Salary Per Player, 1995-2004';
         } else {
@@ -171,22 +171,22 @@
       }
 
       function updateButtons() {
-        let next_el = document.getElementById('next_button')
-        let last_el = document.getElementById('last_button')
-        if (current_slide == 1) {
-          last_el.innerHTML = 'Back'
+        let nextEl = document.getElementById('nextButton')
+        let lastEl = document.getElementById('lastButton')
+        if (currentSlide == 1) {
+          lastEl.innerHTML = 'Back'
           setTimeout(function () {
-            last_el.href = './walk_then_run.html'
+            lastEl.href = './walk_then_run.html'
           }, 1)
         } else {
-          last_el.innerHTML = '<'
-          last_el.href = '#'
+          lastEl.innerHTML = '<'
+          lastEl.href = '#'
         }
 
-        if (current_slide == 2) {
-          next_el.classList.add('slide-navigation__button--inactive')
+        if (currentSlide == 2) {
+          nextEl.classList.add('slide-navigation__button--inactive')
         } else {
-          next_el.classList.remove('slide-navigation__button--inactive')
+          nextEl.classList.remove('slide-navigation__button--inactive')
         }
       }
     </script>

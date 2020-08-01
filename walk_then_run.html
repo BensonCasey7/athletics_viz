@@ -34,9 +34,9 @@
 
       <div class='slide-panel'>
         <div>
-          <div id='slide_1'>
-            <h3 class='slide_header'>Walk, then run</h3>
-            <div class='slide_copy'>
+          <div id='slide--1'>
+            <h3 class='slide--header'>Walk, then run</h3>
+            <div class='slide--copy'>
               <p>
                 In baseball, a walk is earned when a batter does not swing at four pitches outside of the strike zone,
                 giving them a free pass to first base. In many ways, this is just as valuable as getting a hit and
@@ -67,18 +67,18 @@
     </div>
 
     <script>
-      teams_with_salary_data = teams_with_salaries.data.filter(function (item) {
+      teamsWithSalaryData = teamsWithSalaries.data.filter(function (item) {
         return (item.yearID >= 1995 && item.yearID <= 2004)
       });
-      let wins_vs_walks = scatter({
+      scatter({
         id: 'wins_vs_walks',
-        data: teams_with_salary_data,
-        x_axis_label: 'Walks (Season)',
-        y_axis_label: 'Wins',
-        x_domain: [300, 900],
-        y_domain: [40, 120],
-        x_key: 'BB',
-        y_key: 'W',
+        data: teamsWithSalaryData,
+        xAxisLabel: 'Walks (Season)',
+        yAxisLabel: 'Wins',
+        xDomain: [300, 900],
+        yDomain: [40, 120],
+        xKey: 'BB',
+        yKey: 'W',
         regression: true
       });
     </script>
