@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Moneyball</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src='https://d3js.org/d3.v5.js'></script>
+  <script src='./data.js'></script>
+  <script src='./generate_charts.js'></script>
+</head>
+
+<body>
+  <div class='nav'>
+    <div class='nav__progress-bar__wrapper'>
+      <div class='nav__progress-bar nav__progress-bar--4'></div>
+      <div class='nav__progress-bar__bubble nav__progress-bar__bubble--4'></div>
+    </div>
+
+    <div class='nav__links'>
+      <a href='./index.html' class='nav__links__link'>Overview</a>
+      <a href='./wins_vs_salary.html' class='nav__links__link'>An Unfair System</a>
+      <a href='./cost_per_win.html' class='nav__links__link'>Cost Per Win</a>
+      <a href='./finding_wins.html' class='nav__links__link'>Finding Wins</a>
+      <a href='./walk_rate.html' class='nav__links__link nav__links__link--active'>Walk Rate</a>
+    </div>
+  </div>
+
+  <div class='page-wrapper'>
+    <div class='flex'>
+      <div class='chart-panel'>
+        <div class='chart-panel__title'>Walk Rate vs. Salary Per Player, 1995-2004</div>
+        <div id='walks_vs_salary'></div>
+      </div>
+
+      <div class='slide-panel'>
+        <div>
+          <div id='slide_1'>
+            <h3 class='slide_header'>Misuse of Funds</h3>
+            <div class='slide_copy'>
+              <p>
+                Despite the teams who walk more often tend to win more often, a player's walk rate had no detectable
+                impact on their salary. Players who were proficient at taking walks tended to fly under the radar or
+                were often viewed as "soft" despite the positive impact they had on their team's success.
+              </p>
+            </div>
+            <div id='wins_vs_payroll_select'></div>
+          </div>
+          <div id='slide_2' class='hidden'>
+            <h3 class='slide_header'>The Athletics see an opportunity</h3>
+            <div class='slide_copy'>
+              <p>
+                Having lost key players like Johnny Damon and Jason Giambi to teams that had well over twice the
+                payroll, the Athletics sought out players who were both cheap and took walks at a high rate.
+              </p>
+            </div>
+            <div id='wins_vs_payroll_select'></div>
+          </div>
+        </div>
+
+        <div class='slide-navigation'>
+          <a href='./finding_wins.html' id='last_button' onclick="back()" class='slide-navigation__button'>Back</a>
+          <a href='#' id='next_button' onclick="forward()" class='slide-navigation__button'>&gt;</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      year_range = [1994, 2005];
+      walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
+        return (item.yearID > year_range[0] && item.yearID < year_range[1] && item.AB > 100 && item.salary)
+      });
+      let walks_vs_salary = scatter({
+        id: 'walks_vs_salary',
+        data: walks_vs_salary_data,
+        x_axis_label: 'Salary',
+        y_axis_label: 'Walk Rate',
+        x_domain: [0, 15000000],
+        y_domain: [0, 0.35],
+        x_key: 'salary',
+        y_key: 'walk_rate',
+        dot_radius: 2
+      });
+
+      let current_slide = 1;
+
+      function forward() {
+        remove_slide();
+        if (current_slide < 2) {
+          current_slide++;
+        }
+        change_slide();
+      }
+
+      function back() {
+        remove_slide();
+        if (current_slide > 1) {
+          current_slide--;
+        }
+        change_slide();
+      }
+
+      function remove_slide() {
+        document.getElementById('slide_' + current_slide).classList.add('hidden');
+      }
+
+      function change_slide() {
+        document.getElementById('slide_' + current_slide).classList.remove('hidden');
+        updateButtons();
+      }
+
+      function updateButtons() {
+        let next_el = document.getElementById('next_button')
+        let last_el = document.getElementById('last_button')
+        if (current_slide == 1) {
+          last_el.innerHTML = 'Last'
+          setTimeout(function () {
+            last_el.href = "./finding_wins.html"
+          }, 1)
+        } else {
+          last_el.innerHTML = '<'
+          last_el.href = '#'
+        }
+
+        if (current_slide == 2) {
+          next_el.classList.add('slide-navigation__button--inactive')
+        } else {
+          next_el.classList.remove('slide-navigation__button--inactive')
+        }
+      }
+    </script>
+</body>
+
+</html>

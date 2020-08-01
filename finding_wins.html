@@ -15,50 +15,66 @@
       <div class='nav__progress-bar nav__progress-bar--4'></div>
       <div class='nav__progress-bar__bubble nav__progress-bar__bubble--4'></div>
     </div>
-  
+
     <div class='nav__links'>
       <a href='./index.html' class='nav__links__link'>Overview</a>
       <a href='./wins_vs_salary.html' class='nav__links__link'>An Unfair System</a>
       <a href='./cost_per_win.html' class='nav__links__link'>Cost Per Win</a>
       <a href='./finding_wins.html' class='nav__links__link nav__links__link--active'>Finding Wins</a>
+      <a href='./walk_rate.html' class='nav__links__link'>Walk Rate</a>
     </div>
   </div>
 
-  <div id='wins_vs_walks'></div>
-  <div id='walks_vs_salary'></div>
+  <div class='page-wrapper'>
+    <div class='flex'>
+      <div class='chart-panel'>
+        <div class='chart-panel__title'>Season Wins vs. Walks, 1995-2004</div>
+        <div id='wins_vs_walks'></div>
+      </div>
 
-  <script>
-    year_range = [1995, 2005];
-    teams_with_salary_data = teams_with_salaries.data.filter(function (item) {
-      return (item.yearID > year_range[0] && item.yearID < year_range[1])
-    });
-    let wins_vs_walks = scatter({
-      id: 'wins_vs_walks',
-      data: teams_with_salary_data,
-      x_axis_label: 'Walks (Season)',
-      y_axis_label: 'Wins',
-      x_domain: [300, 900],
-      y_domain: [40, 120],
-      x_key: 'BB',
-      y_key: 'W',
-      regression: true
-    });
+      <div class='slide-panel'>
+        <div>
+          <div id='slide_1'>
+            <h3 class='slide_header'>Walk, then run</h3>
+            <div class='slide_copy'>
+              <p>
+                In baseball, a walk is earned when a batter does not swing at four pitches outside of the strike zone,
+                giving them a free pass to first base. In many ways, this is just as valuable as getting a hit and
+                making it to first base.
+              </p>
+              <p>
+                A reasonable assumption would be that teams who walk more often, win more often. This is, in fact, the
+                case. It would logically follow that teams would spend money in ways that would get them more walks,
+                right? Not so fast...
+              </p>
+            </div>
+            <div id='wins_vs_payroll_select'></div>
+          </div>
+        </div>
 
-    walks_vs_salary_data = batting_with_salaries.data.filter(function (item) {
-      return (item.yearID > year_range[0] && item.yearID < year_range[1] && item.AB > 100 && item.salary)
-    });
-    let walks_vs_salary = scatter({
-      id: 'walks_vs_salary',
-      data: walks_vs_salary_data,
-      x_axis_label: 'Salary',
-      y_axis_label: 'Walk Rate',
-      x_domain: [0, 15000000],
-      y_domain: [0, 0.4],
-      x_key: 'salary',
-      y_key: 'walk_rate',
-      regression: true
-    });
-  </script>
+        <div class='slide-navigation'>
+          <a href='./cost_per_win.html' class='slide-navigation__button'>Back</a>
+          <a href='./walk_rate.html' class='slide-navigation__button'>Next</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      teams_with_salary_data = teams_with_salaries.data.filter(function (item) {
+        return (item.yearID >= 1995 && item.yearID <= 2004)
+      });
+      let wins_vs_walks = scatter({
+        id: 'wins_vs_walks',
+        data: teams_with_salary_data,
+        x_axis_label: 'Walks (Season)',
+        y_axis_label: 'Wins',
+        x_domain: [300, 900],
+        y_domain: [40, 120],
+        x_key: 'BB',
+        y_key: 'W',
+        regression: true
+      });
+    </script>
 </body>
 
 </html>

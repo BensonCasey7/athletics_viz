@@ -8,11 +8,12 @@ function scatter(options) {
   const x_key = options.x_key;
   const y_key = options.y_key;
   const svg_width = options.width || 1000;
-  const svg_height = options.height || 600;
+  const svg_height = options.height || 500;
   const regression = options.regression || false;
   const highlight_key = options.highlight_key;
   const highlight_value = options.highlight_value || false;
   const annotations = options.annotations || false;
+  const dot_radius = options.dot_radius || 4;
 
   const margin = {
       top: 10,
@@ -71,7 +72,7 @@ function scatter(options) {
     .attr('cy', function (d) {
       return y_scale(d[y_key]);
     })
-    .attr('r', 4)
+    .attr('r', dot_radius)
     .attr("class", function (d) {
       if (highlight_value && highlight_value != 'false') {
         if (d[highlight_key] == highlight_value) {
@@ -173,7 +174,7 @@ function bar(options) {
   const x_key = options.x_key;
   const y_key = options.y_key;
   const svg_width = options.width || 1000;
-  const svg_height = options.height || 600;
+  const svg_height = options.height || 500;
 
   var margin = {
       top: 10,
