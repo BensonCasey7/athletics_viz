@@ -25,13 +25,14 @@
     </div>
   </div>
 
-  <!-- <div id='cost_per_win'></div> -->
-
   <div class='page-wrapper'>
     <div class='flex'>
-      <div id='cost_per_win'></div>
+      <div class='chart-panel'>
+        <div class='chart-panel__title'>Cost Per Win, 2002</div>
+        <div id='cost_per_win'></div>
+      </div>
 
-      <div class='slides'>
+      <div class='slide-panel'>
         <div>
           <div id='slide_1'>
             <h3 class='slide_header'>Gotta Write This</h3>
@@ -48,15 +49,23 @@
                 2004. Take a look at your favorite teams and see what they were able to do with their money.
               </p>
             </div>
-            <div id='wins_vs_payroll_select'></div>
+          </div>
+          <div id='slide_2' class='hidden'>
+            <h3 class='slide_header'>The Athletics see an opportunity</h3>
+            <div class='slide_copy'>
+              <p>
+                Having lost key players like Johnny Damon and Jason Giambi to teams that had well over twice the
+                payroll, the Athletics sought out players who were both cheap and took walks at a high rate.
+              </p>
+            </div>
           </div>
         </div>
 
         <div class='slide-navigation'>
           <a href='./wins_vs_salary.html' class='slide-navigation__button'>Last</a>
           <a href='./finding_wins.html' class='slide-navigation__button'>Next</a>
-          <a href='./cost_per_win.html' id='next_page_button' onclick="forward()" class='slide-navigation__button hidden'>&gt;</a>
         </div>
+      </div>
       </div>
     </div>
   </div>

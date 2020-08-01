@@ -140,6 +140,11 @@ body {
   justify-content: space-between;
   margin-left: 12px;
   margin-bottom: 50px;
+  height: 500px;
+}
+
+.slide_copy {
+  font-size: 18px;
 }
 
 .slide-navigation {
@@ -180,8 +185,6 @@ body {
   pointer-events: none;
 }
 
-.hero {}
-
 .hero__title {
   margin: 60px 0 24px 0;
   text-align: center;
@@ -195,4 +198,19 @@ body {
   font-size: 24px;
 }
 
-.hero__button {}
+.hero__button {
+  display: block;
+  width: 150px;
+  padding: 6px;
+  border-radius: 3px;
+  color: #FFF;
+  text-align: center;
+  font-size: 24px;
+  background-color: #08A045;
+  margin: auto;
+  text-decoration: none;;
+}
+
+.hero__button:hover {
+  background-color: #035e27;
+}
