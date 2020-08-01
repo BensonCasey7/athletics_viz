@@ -84,10 +84,10 @@ function scatter(options) {
           console.log(d);
           return 'athletics'
         } else {
-          return 'understated_element'
+          return 'understated-element'
         }
       } else {
-        return 'chart_element';
+        return 'chart-element' + (tooltip ? ' chart-element--interactive' : '');
       }
     })
     .on('mouseover', function (d, i) {
@@ -165,7 +165,7 @@ function scatter(options) {
       .attr('dy', function (d) {
         return d.yAdj >= 0 ? '1em' : '-1.7em';
       })
-      .attr('class', 'annotation_title')
+      .attr('class', 'annotation-title')
       .text(function (d) {
         return d.title;
       });
@@ -184,7 +184,7 @@ function scatter(options) {
       .attr('dy', function (d) {
         return d.yAdj >= 0 ? '2.5em' : '-.5em';
       })
-      .attr('class', 'annotation_text')
+      .attr('class', 'annotation-text')
       .text(function (d) {
         return d.text;
       });
@@ -286,7 +286,7 @@ function bar(options) {
       if (d.teamID == 'OAK') {
         return 'athletics athletics--interactive'
       } else {
-        return 'chart_element chart_element--interactive'
+        return 'chart-element chart-element--interactive'
       }
     })
     .on('mouseover', function (d, i) {

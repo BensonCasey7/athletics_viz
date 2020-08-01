@@ -127,15 +127,15 @@ body {
   padding: 12px 0;
 }
 
-.chart_element {
+.chart-element {
   fill: #2B50AA;
 }
 
-.chart_element--interactive:hover {
+.chart-element--interactive:hover {
   fill: #1c3472;
 }
 
-.understated_element {
+.understated-element {
   fill: #DDD;
 }
 
@@ -147,12 +147,12 @@ body {
   fill: #035e27;
 }
 
-.annotation_title {
+.annotation-title {
   font-weight: 600;
   text-anchor: middle;
 }
 
-.annotation_text {
+.annotation-text {
   font-weight: 200;
   text-anchor: middle;
   font-size: 14px;
