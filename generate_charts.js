@@ -290,7 +290,7 @@ function bar(options) {
       div.transition()
         .duration(100)
         .style("opacity", .9);
-      div.html('Wins: ' + d.W + '<br>Salary: $' + d.salary)
+      div.html('Wins: ' + d.W + ' | Salary: $' + d.salary.toString().slice(0, -6) + 'M' + '<br>Cost per win: $' + Math.round(d[y_key]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
         .style("left", (x.bandwidth() * i + 5) + "px")
         .style("top", (y(d[y_key]) + 60) + "px");
     })
